@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'component/badge_widget.dart';
+import 'widget/badge_widget.dart';
 
 void main() {
   runApp(const MyApp());
