@@ -17,9 +17,9 @@ class HomePage extends StatelessWidget {
           builder: (context, child) {
             return Column(
               children: [
-                Consumer<PlanViewModel>(
+                Consumer<PlanViewModel>( // 데이터 변조가 일어나면 새로 랜더링 됨
                   builder: (_, planViewModel, __) {
-                    return Expanded(
+                    return Expanded( // 겉을 감싸고 있는(현재 영역) 부분의 최대치
                       child: PageView.builder(
                         onPageChanged: planViewModel.changePage,
                         controller: planViewModel.pageController,
@@ -48,13 +48,13 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 ),
-                Container(
+                Container( // stack으로 구현하는 케이스도 있음. 컨슈머에 포함되면 watch를 사용할 수 없음.
                   margin: const EdgeInsets.only(bottom: 20),
                   height: 10,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center, // 감싸고 있는 위젯의 세로 정방향 (cross는 가로 정방향)
                     children: List<Widget>.generate(
-                        context.watch<PlanViewModel>().plans.length,
+                        context.watch<PlanViewModel>().plans.length, // 변경을 감지하여 바인딩된 데이터를 감지하여 ui 변경
                         (index) => Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),

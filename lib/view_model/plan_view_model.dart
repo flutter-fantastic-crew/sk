@@ -4,6 +4,7 @@ import 'package:sk/entity/plan_entity.dart';
 import '../entity/plan_history_entity.dart';
 
 class PlanViewModel extends ChangeNotifier {
+  // 사용자 액션이 일어나면 뷰모델을 호출
   // index가 0인 페이지 먼저 보여줌
   final pageController = PageController(
     initialPage: 0,
@@ -62,13 +63,13 @@ class PlanViewModel extends ChangeNotifier {
         totalAmount: 1000)
   ];
 
-  List<PlanEntity> get plans => _plans;
+  List<PlanEntity> get plans => _plans; // 접근제어자에 대한 get만 허용
 
   int _currentPage = 0;
   int get currentPage => _currentPage;
 
   void changePage(int currentPage) {
     _currentPage = currentPage;
-    notifyListeners();
+    notifyListeners(); // 컨슈밍하고 있는 대상에게 리빌딩 하도록 알려줌
   }
 }
