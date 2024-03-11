@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F3F3),
-      appBar: AppBarWidget(),
+      appBar: AppBarWidget(context),
       body: SafeArea(
         child: ChangeNotifierProvider<PlanViewModel>(
           create: (_) => PlanViewModel(),
