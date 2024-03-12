@@ -47,9 +47,11 @@ class AppBarWidget extends AppBar {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      enableDrag: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25.0),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
+        ),
       ),
       builder: (BuildContext context) {
         return const PlanSummeryBottomSheet();
