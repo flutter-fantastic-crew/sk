@@ -4,12 +4,16 @@ class TotalAmountWidget extends StatelessWidget {
   final String title;
   final String amount;
   final Color color;
+  final double marginLeft;
+  final double marginRight;
 
   const TotalAmountWidget({
     super.key,
     required this.title,
     required this.amount,
     required this.color,
+    required this.marginLeft,
+    required this.marginRight,
   });
 
   @override
@@ -17,7 +21,7 @@ class TotalAmountWidget extends StatelessWidget {
     return Expanded(
       child: Container(
         height: 100,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        margin: EdgeInsets.only(left: marginLeft, right: marginRight),
         padding: const EdgeInsets.all(17),
         decoration: BoxDecoration(
             color: const Color(0xFFEAEAEA),

@@ -24,7 +24,7 @@ class PlanSummeryBottomSheet extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Container(
-            margin: EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.only(left: 15),
             child: const Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -41,10 +41,64 @@ class PlanSummeryBottomSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TotalAmountWidget(
-                  title: '총 소비', amount: '1,000', color: Color(0xFF202B33)),
+                title: '총 소비',
+                amount: '1,000',
+                color: Color(0xFF202B33),
+                marginLeft: 15,
+                marginRight: 7.5,
+              ),
               TotalAmountWidget(
-                  title: '총 수입', amount: '1,000', color: Color(0XFF40BE40)),
+                title: '총 수입',
+                amount: '1,000',
+                color: Color(0XFF40BE40),
+                marginLeft: 7.5,
+                marginRight: 15,
+              ),
             ],
+          ),
+          Container(
+            height: 70,
+            margin: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(17),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEAEAEA),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Row(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '남은 총 예산',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 18),
+                Expanded(
+                  child: Text(
+                    '5,000원',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF202B33),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '/ 5,000원',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
