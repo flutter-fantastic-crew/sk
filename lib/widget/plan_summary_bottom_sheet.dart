@@ -37,22 +37,27 @@ class PlanSummeryBottomSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
             children: [
-              TotalAmountWidget(
-                title: '총 소비',
-                amount: '1,000',
-                color: Color(0xFF202B33),
-                marginLeft: 15,
-                marginRight: 7.5,
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 15, right: 7.5),
+                  child: const TotalAmountWidget(
+                    title: '총 소비',
+                    amount: '1,000',
+                    color: Color(0xFF202B33),
+                  ),
+                ),
               ),
-              TotalAmountWidget(
-                title: '총 수입',
-                amount: '1,000',
-                color: Color(0XFF40BE40),
-                marginLeft: 7.5,
-                marginRight: 15,
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 7.5, right: 15),
+                  child: const TotalAmountWidget(
+                    title: '총 수입',
+                    amount: '1,000',
+                    color: Color(0XFF40BE40),
+                  ),
+                ),
               ),
             ],
           ),
@@ -65,6 +70,8 @@ class PlanSummeryBottomSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: const Row(
+              // betweenSpace
+              // row에 row를 쓰는 방법도 있음
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
@@ -102,6 +109,7 @@ class PlanSummeryBottomSheet extends StatelessWidget {
           )
         ],
       ),
+      // 플랜별 소비 위젯 만들기!
     );
   }
 }
