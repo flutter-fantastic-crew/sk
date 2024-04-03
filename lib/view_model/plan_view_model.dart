@@ -22,14 +22,14 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 0,
-            type: 'EXPENSES',
+            type: "EXPENSE",
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 100,
           ),
           PlanHistoryEntity(
             id: 1,
-            type: 'EXPENSES',
+            type: "INCOME",
             memo: "메모2",
             createAt: DateTime.now(),
             amount: 200,
@@ -38,7 +38,7 @@ class PlanViewModel extends ChangeNotifier {
         totalAmount: 1000),
     PlanEntity(
         id: 1,
-        type: 'FREE',
+        type: 'SET',
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         memo: "소비계획2메모",
@@ -47,14 +47,14 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 0,
-            type: 'EXPENSES',
+            type: "EXPENSE",
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 100,
           ),
           PlanHistoryEntity(
             id: 1,
-            type: 'EXPENSES',
+            type: "EXPENSE",
             memo: "메모2",
             createAt: DateTime.now(),
             amount: 200,
@@ -71,5 +71,10 @@ class PlanViewModel extends ChangeNotifier {
   void changePage(int currentPage) {
     _currentPage = currentPage;
     notifyListeners(); // 컨슈밍하고 있는 대상에게 리빌딩 하도록 알려줌
+  }
+
+  void addPlan(PlanEntity plan) {
+    _plans.add(plan);
+    notifyListeners();
   }
 }

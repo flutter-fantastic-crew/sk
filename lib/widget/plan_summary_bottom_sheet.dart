@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sk/widget/plan_summary_widget.dart';
 import 'package:sk/widget/total_amount_widget.dart';
+import '../view_model/plan_view_model.dart';
 
 class PlanSummeryBottomSheet extends StatelessWidget {
   const PlanSummeryBottomSheet({super.key});
@@ -106,10 +109,38 @@ class PlanSummeryBottomSheet extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 15),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(width: 20),
+                Text(
+                  '플랜별 소비',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Consumer<PlanViewModel>(
+              builder: (context, viewModel, child) {
+                return ListView.builder(
+                  itemCount: viewModel.plans.length,
+                  itemBuilder: (context, index) {
+                    final plan = viewModel.plans[index];
+                    return PlanSummaryWidget(plan: plan);
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
-      // 플랜별 소비 위젯 만들기!
     );
   }
 }

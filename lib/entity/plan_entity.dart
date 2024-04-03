@@ -22,4 +22,30 @@ class PlanEntity {
     required this.planHistory,
     required this.totalAmount,
   });
+
+  int get totalExpenses => planHistory
+      .where((e) => e.type == "EXPENSE")
+      .map((e) => e.amount)
+      .reduce((sum, value) => sum + value);
+
+  int get totalIncomes => planHistory
+      .where((e) => e.type == 'INCOME')
+      .map((e) => e.amount)
+      .reduce((sum, value) => sum + value);
+
+  int calculateLeftAmount(PlanEntity plan) {
+    int leftAmount = 0;
+
+    if (plan.type == 'FREE') {
+      for (var history in plan.planHistory) {
+        if (history.type == 'INCOME') {
+          leftAmount += history.amount;
+        }
+      }
+    } else if (plan.type == 'SET') {
+      return plan.totalAmount;
+    }
+
+    return leftAmount;
+  }
 }
