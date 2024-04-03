@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class BadgeWidget extends StatelessWidget {
   final String text;
-
   const BadgeWidget({super.key, required this.text});
 
   @override
