@@ -60,7 +60,7 @@ class PlanSummaryWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${plan.calculateLeftAmount(plan)}원',
+                '${plan.calculateLeftAmount()}원',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,

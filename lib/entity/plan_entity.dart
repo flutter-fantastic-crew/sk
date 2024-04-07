@@ -23,29 +23,27 @@ class PlanEntity {
     required this.totalAmount,
   });
 
-  int get totalExpenses => planHistory
-      .where((e) => e.type == "EXPENSE")
-      .map((e) => e.amount)
-      .reduce((sum, value) => sum + value);
+  int get totalExpenses {
+    final incomeData = planHistory.where((e) => e.type == "EXPENSE").toList();
+    return incomeData
+        .map((e) => e.amount)
+        .fold(0, (sum, value) => sum + value); // 시작값 지정
+  }
 
-  int get totalIncomes => planHistory
-      .where((e) => e.type == 'INCOME')
-      .map((e) => e.amount)
-      .reduce((sum, value) => sum + value);
-
-  int calculateLeftAmount(PlanEntity plan) {
+  int calculateLeftAmount() {
     int leftAmount = 0;
-
-    if (plan.type == 'FREE') {
-      for (var history in plan.planHistory) {
-        if (history.type == 'INCOME') {
-          leftAmount += history.amount;
-        }
-      }
-    } else if (plan.type == 'SET') {
-      return plan.totalAmount;
+    if (type == 'FREE') {
+      leftAmount = planHistory
+          .where((history) => history.type == 'INCOME')
+          .map((history) => history.amount)
+          .fold(0, (sum, amount) => sum + amount);
+    } else {
+      final expense = planHistory
+          .where((history) => history.type == 'EXPENSE')
+          .map((history) => history.amount)
+          .fold(0, (sum, amount) => sum + amount);
+      leftAmount = totalAmount - expense;
     }
-
     return leftAmount;
   }
 }
