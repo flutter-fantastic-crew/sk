@@ -60,7 +60,93 @@ class PlanViewModel extends ChangeNotifier {
             amount: 800,
           )
         ],
-        totalAmount: 3000)
+        totalAmount: 3000),
+    PlanEntity(
+        id: 1,
+        type: 'SET',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        memo: "소비계획3메모",
+        name: "소비계획3",
+        icon: "😇",
+        planHistory: [
+          PlanHistoryEntity(
+            id: 0,
+            type: "EXPENSE",
+            memo: "메모1",
+            createAt: DateTime.now(),
+            amount: 300,
+          ),
+          PlanHistoryEntity(
+            id: 1,
+            type: "EXPENSE",
+            memo: "메모2",
+            createAt: DateTime.now(),
+            amount: 700,
+          )
+        ],
+        totalAmount: 1000),
+    PlanEntity(
+        id: 1,
+        type: 'FREE',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        memo: "자유계획2메모",
+        name: "자유계획2",
+        icon: "🤓",
+        planHistory: [
+          PlanHistoryEntity(
+            id: 0,
+            type: "EXPENSE",
+            memo: "메모1",
+            createAt: DateTime.now(),
+            amount: 200,
+          ),
+          PlanHistoryEntity(
+            id: 1,
+            type: "EXPENSE",
+            memo: "메모2",
+            createAt: DateTime.now(),
+            amount: 100,
+          )
+        ],
+        totalAmount: 1000),
+    PlanEntity(
+        id: 1,
+        type: 'FREE',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        memo: "자유계획3메모",
+        name: "자유계획3",
+        icon: "😍",
+        planHistory: [
+          PlanHistoryEntity(
+            id: 1,
+            type: "INCOME",
+            memo: "메모2",
+            createAt: DateTime.now(),
+            amount: 50,
+          )
+        ],
+        totalAmount: 500),
+    PlanEntity(
+        id: 1,
+        type: 'SET',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        memo: "소비계획4메모",
+        name: "소비계획4",
+        icon: "🦾",
+        planHistory: [
+          PlanHistoryEntity(
+            id: 0,
+            type: "EXPENSE",
+            memo: "메모1",
+            createAt: DateTime.now(),
+            amount: 700,
+          ),
+        ],
+        totalAmount: 900),
   ];
 
   List<PlanEntity> get plans => _plans; // 접근제어자에 대한 get만 허용
