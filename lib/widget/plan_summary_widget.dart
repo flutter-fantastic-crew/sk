@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../entity/plan_entity.dart';
 
@@ -10,6 +11,8 @@ class PlanSummaryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final numberFormat = NumberFormat('###,###,###,###');
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
@@ -46,7 +49,7 @@ class PlanSummaryWidget extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(right: 20),
                   child: Text(
-                    '${plan.totalExpenses}원',
+                    '${numberFormat.format(plan.totalExpenses)}원',
                     style: const TextStyle(
                       fontSize: 20,
                       color: Colors.black,
@@ -60,7 +63,7 @@ class PlanSummaryWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${plan.calculateLeftAmount()}원',
+                '${numberFormat.format(plan.calculateLeftAmount())}원',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,

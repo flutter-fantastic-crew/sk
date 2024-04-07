@@ -33,7 +33,6 @@ class TotalAmountWidget extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            // 금액 천단위 쉼표 찍어 주기 (intl)
             '$amount 원',
             style: TextStyle(
               fontSize: 25,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sk/widget/plan_summary_widget.dart';
 import 'package:sk/widget/total_amount_widget.dart';
@@ -9,6 +10,9 @@ class PlanSummeryBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final numberFormat = NumberFormat('###,###,###,###');
+    final viewModel = Provider.of<PlanViewModel>(context, listen: false);
+
     return FractionallySizedBox(
       //상위 부모의 사이즈 비율을 지정하여 child의 크기를 정하기
       heightFactor: 0.88,
@@ -45,20 +49,22 @@ class PlanSummeryBottomSheet extends StatelessWidget {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(left: 15, right: 7.5),
-                  child: const TotalAmountWidget(
+                  child: TotalAmountWidget(
                     title: '총 소비',
-                    amount: '1,000',
-                    color: Color(0xFF202B33),
+                    amount: numberFormat
+                        .format(viewModel.getTotalAmountByType('EXPENSE')),
+                    color: const Color(0xFF202B33),
                   ),
                 ),
               ),
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(left: 7.5, right: 15),
-                  child: const TotalAmountWidget(
+                  child: TotalAmountWidget(
                     title: '총 수입',
-                    amount: '1,000',
-                    color: Color(0XFF40BE40),
+                    amount: numberFormat
+                        .format(viewModel.getTotalAmountByType('INCOME')),
+                    color: const Color(0XFF40BE40),
                   ),
                 ),
               ),
@@ -72,11 +78,11 @@ class PlanSummeryBottomSheet extends StatelessWidget {
               color: const Color(0xFFEAEAEA),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Row(
+            child: Row(
               // betweenSpace
               // row에 row를 쓰는 방법도 있음
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     '남은 총 예산',
@@ -86,11 +92,11 @@ class PlanSummeryBottomSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 18),
+                const SizedBox(width: 18),
                 Expanded(
                   child: Text(
-                    '5,000원',
-                    style: TextStyle(
+                    numberFormat.format(viewModel.getCurrentBudget()),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF202B33),
@@ -100,8 +106,8 @@ class PlanSummeryBottomSheet extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '/ 5,000원',
-                    style: TextStyle(
+                    '/ ${numberFormat.format(viewModel.getOriginalTotalBudget())}원',
+                    style: const TextStyle(
                       fontSize: 15,
                       color: Colors.grey,
                     ),

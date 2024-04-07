@@ -25,17 +25,17 @@ class PlanViewModel extends ChangeNotifier {
             type: "EXPENSE",
             memo: "메모1",
             createAt: DateTime.now(),
-            amount: 100,
+            amount: 500,
           ),
           PlanHistoryEntity(
             id: 1,
             type: "INCOME",
             memo: "메모2",
             createAt: DateTime.now(),
-            amount: 200,
+            amount: 600,
           )
         ],
-        totalAmount: 1000),
+        totalAmount: 0),
     PlanEntity(
         id: 1,
         type: 'SET',
@@ -50,31 +50,53 @@ class PlanViewModel extends ChangeNotifier {
             type: "EXPENSE",
             memo: "메모1",
             createAt: DateTime.now(),
-            amount: 100,
+            amount: 700,
           ),
           PlanHistoryEntity(
             id: 1,
             type: "EXPENSE",
             memo: "메모2",
             createAt: DateTime.now(),
-            amount: 200,
+            amount: 800,
           )
         ],
-        totalAmount: 1000)
+        totalAmount: 3000)
   ];
 
   List<PlanEntity> get plans => _plans; // 접근제어자에 대한 get만 허용
 
   int _currentPage = 0;
+
   int get currentPage => _currentPage;
+
+  int getTotalAmountByType(String type) {
+    return plans.fold(
+        0,
+        (total, plan) =>
+            total +
+            plan.planHistory
+                .where((e) => e.type == type)
+                .fold(0, (sum, history) => sum + history.amount));
+  }
+
+  int getOriginalTotalBudget() {
+    return plans
+        .where((e) => (e.type == 'SET'))
+        .fold(0, (total, plan) => total + plan.totalAmount);
+  }
+
+  int getCurrentBudget() {
+    return plans.where((e) => (e.type == 'SET')).fold(
+        0,
+        (total, plan) =>
+            total +
+            plan.planHistory
+                .where((e) => e.type == 'EXPENSE')
+                .fold(0, (sum, history) => sum + history.amount));
+  }
 
   void changePage(int currentPage) {
     _currentPage = currentPage;
     notifyListeners(); // 컨슈밍하고 있는 대상에게 리빌딩 하도록 알려줌
-  }
-
-  void addPlan(PlanEntity plan) {
-    _plans.add(plan);
-    notifyListeners();
   }
 }
