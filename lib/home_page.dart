@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sk/view_model/plan_view_model.dart';
 import 'package:sk/widget/app_bar_widget.dart';
@@ -8,6 +10,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final numberFormat = NumberFormat('###,###,###,###');
     return ChangeNotifierProvider<PlanViewModel>(
         create: (_) => PlanViewModel(),
         builder: (context, child) {
@@ -27,23 +30,99 @@ class HomePage extends StatelessWidget {
                           controller: planViewModel.pageController,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
-                                padding: const EdgeInsets.all(50),
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(planViewModel.plans[index].icon),
-                                        Text(planViewModel.plans[index].name),
-                                      ],
-                                    ),
-                                  ],
-                                ));
+                              padding: const EdgeInsets.all(50),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        planViewModel.plans[index].icon,
+                                        style: const TextStyle(
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        planViewModel.plans[index].name,
+                                        style: const TextStyle(
+                                          fontSize: 17,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 100,
+                                      ),
+                                      const Text(
+                                        '남은 예산',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '${numberFormat.format(planViewModel.plans[index].totalExpenses)}원',
+                                            style: const TextStyle(
+                                              fontSize: 27,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 3,
+                                          ),
+                                          const Icon(
+                                            CupertinoIcons
+                                                .chevron_compact_right,
+                                            size: 18,
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        '/ ${numberFormat.format(planViewModel.plans[index].totalAmount)}원',
+                                        style: const TextStyle(
+                                          fontSize: 17,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 50,
+                                      ),
+                                      Column(
+                                        children: [
+                                          ElevatedButton(
+                                              onPressed: () => {}, child:
+                                          const Text(
+                                            '내역추가'
+                                          )),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
                           },
                           itemCount: planViewModel.plans.length,
                         ),
