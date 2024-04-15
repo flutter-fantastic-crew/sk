@@ -3,15 +3,17 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sk/widget/plan_summary_widget.dart';
 import 'package:sk/widget/total_amount_widget.dart';
+import '../entity/plan_history_entity.dart';
 import '../view_model/plan_view_model.dart';
 
 class PlanSummeryBottomSheet extends StatelessWidget {
-  const PlanSummeryBottomSheet({super.key});
+  BuildContext context2; // 이게 마자? 컨텍스트 관리 어케해요..?
+  PlanSummeryBottomSheet({required this.context2, super.key});
 
   @override
   Widget build(BuildContext context) {
     final numberFormat = NumberFormat('###,###,###,###');
-    final viewModel = Provider.of<PlanViewModel>(context, listen: false);
+    final viewModel = Provider.of<PlanViewModel>(context2);
 
     return FractionallySizedBox(
       //상위 부모의 사이즈 비율을 지정하여 child의 크기를 정하기
@@ -53,8 +55,8 @@ class PlanSummeryBottomSheet extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 15, right: 7.5),
                       child: TotalAmountWidget(
                         title: '총 소비',
-                        amount: numberFormat
-                            .format(viewModel.getTotalAmountByType('EXPENSE')),
+                        amount: numberFormat.format(viewModel
+                            .getTotalAmountByType(PlanHistoryType.expense)),
                         color: const Color(0xFF202B33),
                       ),
                     ),
@@ -64,8 +66,8 @@ class PlanSummeryBottomSheet extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 7.5, right: 15),
                       child: TotalAmountWidget(
                         title: '총 수입',
-                        amount: numberFormat
-                            .format(viewModel.getTotalAmountByType('INCOME')),
+                        amount: numberFormat.format(viewModel
+                            .getTotalAmountByType(PlanHistoryType.income)),
                         color: const Color(0XFF40BE40),
                       ),
                     ),
@@ -134,19 +136,11 @@ class PlanSummeryBottomSheet extends StatelessWidget {
                   ],
                 ),
               ),
-              Consumer<PlanViewModel>(
-                builder: (context, viewModel, child) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: viewModel.plans.length,
-                    itemBuilder: (context, index) {
-                      final plan = viewModel.plans[index];
-                      return PlanSummaryWidget(plan: plan);
-                    },
-                  );
-                },
-              ),
+              ...context2.read<PlanViewModel>().plans.map(
+                    (plan) => PlanSummaryWidget(
+                      plan: plan,
+                    ),
+                  ),
             ],
           ),
         ),

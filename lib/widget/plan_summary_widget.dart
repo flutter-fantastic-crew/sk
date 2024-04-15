@@ -67,14 +67,21 @@ class PlanSummaryWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
-                  color: plan.type == 'FREE'
+                  color: plan.type == PlanType.free
                       ? const Color(0XFF40BE40)
-                      : Colors.grey,
+                      : plan.type == PlanType.set &&
+                              plan.calculateLeftAmount() < 0
+                          ? Colors.red
+                          : Colors.black54,
                 ),
               ),
               const SizedBox(width: 10),
               Text(
-                plan.type == 'FREE' ? '수입' : '남음',
+                plan.type == PlanType.free
+                    ? '수입'
+                    : plan.calculateLeftAmount() >= 0
+                        ? '남음'
+                        : '초과',
                 style: const TextStyle(
                   fontSize: 15,
                   color: Colors.grey,
