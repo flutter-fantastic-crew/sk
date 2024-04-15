@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sk/view_model/plan_view_model.dart';
 import 'home_page.dart';
 
 void main() {
@@ -13,11 +11,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<PlanViewModel>(
-      create: (_) => PlanViewModel(),
-      child: const MaterialApp(
+    return const MaterialApp(
         home: HomePage(),
-      ),
     );
   }
 }
