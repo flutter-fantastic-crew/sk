@@ -13,7 +13,7 @@ class PlanViewModel extends ChangeNotifier {
   final List<PlanEntity> _plans = [
     PlanEntity(
         id: 0,
-        type: "FREE",
+        type: PlanType.free,
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         memo: "소비계획1메모",
@@ -22,14 +22,14 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 0,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 500,
           ),
           PlanHistoryEntity(
             id: 1,
-            type: "INCOME",
+            type: PlanHistoryType.income,
             memo: "메모2",
             createAt: DateTime.now(),
             amount: 600,
@@ -38,7 +38,7 @@ class PlanViewModel extends ChangeNotifier {
         totalAmount: 0),
     PlanEntity(
         id: 1,
-        type: 'SET',
+        type: PlanType.set,
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         memo: "소비계획2메모",
@@ -47,23 +47,23 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 0,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 700,
           ),
           PlanHistoryEntity(
             id: 1,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모2",
             createAt: DateTime.now(),
             amount: 800,
           )
         ],
-        totalAmount: 3000),
+        totalAmount: 1000),
     PlanEntity(
         id: 1,
-        type: 'SET',
+        type: PlanType.set,
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         memo: "소비계획3메모",
@@ -72,14 +72,14 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 0,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 300,
           ),
           PlanHistoryEntity(
             id: 1,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모2",
             createAt: DateTime.now(),
             amount: 700,
@@ -88,7 +88,7 @@ class PlanViewModel extends ChangeNotifier {
         totalAmount: 1000),
     PlanEntity(
         id: 1,
-        type: 'FREE',
+        type: PlanType.free,
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         memo: "자유계획2메모",
@@ -97,14 +97,14 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 0,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 200,
           ),
           PlanHistoryEntity(
             id: 1,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모2",
             createAt: DateTime.now(),
             amount: 100,
@@ -113,7 +113,7 @@ class PlanViewModel extends ChangeNotifier {
         totalAmount: 1000),
     PlanEntity(
         id: 1,
-        type: 'FREE',
+        type: PlanType.free,
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         memo: "자유계획3메모",
@@ -122,7 +122,7 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 1,
-            type: "INCOME",
+            type: PlanHistoryType.income,
             memo: "메모2",
             createAt: DateTime.now(),
             amount: 50,
@@ -131,7 +131,7 @@ class PlanViewModel extends ChangeNotifier {
         totalAmount: 500),
     PlanEntity(
         id: 1,
-        type: 'SET',
+        type: PlanType.set,
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         memo: "소비계획4메모",
@@ -140,7 +140,7 @@ class PlanViewModel extends ChangeNotifier {
         planHistory: [
           PlanHistoryEntity(
             id: 0,
-            type: "EXPENSE",
+            type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 700,
@@ -155,7 +155,7 @@ class PlanViewModel extends ChangeNotifier {
 
   int get currentPage => _currentPage;
 
-  int getTotalAmountByType(String type) {
+  int getTotalAmountByType(PlanHistoryType type) {
     return plans.fold(
         0,
         (total, plan) =>
@@ -167,17 +167,17 @@ class PlanViewModel extends ChangeNotifier {
 
   int getOriginalTotalBudget() {
     return plans
-        .where((e) => (e.type == 'SET'))
+        .where((e) => (e.type == PlanType.set))
         .fold(0, (total, plan) => total + plan.totalAmount);
   }
 
   int getCurrentBudget() {
-    return plans.where((e) => (e.type == 'SET')).fold(
+    return plans.where((e) => (e.type == PlanType.set)).fold(
         0,
         (total, plan) =>
             total +
             plan.planHistory
-                .where((e) => e.type == 'EXPENSE')
+                .where((e) => e.type == PlanHistoryType.expense)
                 .fold(0, (sum, history) => sum + history.amount));
   }
 

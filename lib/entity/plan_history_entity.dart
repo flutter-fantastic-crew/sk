@@ -1,6 +1,6 @@
 class PlanHistoryEntity {
   int id; // 아이디
-  String type; // 타입 (EXPENSE / INCOME)
+  PlanHistoryType type; // 타입 (소비 / 수입)
   int amount; // 금액
   String memo; // 메모
   DateTime createAt; // 생성 일자
@@ -10,6 +10,8 @@ class PlanHistoryEntity {
     required this.type,
     required this.amount,
     required this.memo,
-    required this.createAt
+    required this.createAt,
   });
 }
+
+enum PlanHistoryType { expense, income }

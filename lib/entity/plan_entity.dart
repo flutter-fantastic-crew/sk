@@ -4,7 +4,7 @@ class PlanEntity {
   int id; // 아이디
   DateTime startDate; // 시작일
   DateTime endDate; // 종료일
-  String type; // 타입 (계획 / 자유)
+  PlanType type; // 타입 (계획 / 자유)
   String name; // 이름
   String memo; // 설명 (메모)
   String icon; // 아이콘
@@ -24,7 +24,8 @@ class PlanEntity {
   });
 
   int get totalExpenses {
-    final incomeData = planHistory.where((e) => e.type == "EXPENSE").toList();
+    final incomeData =
+        planHistory.where((e) => e.type == PlanHistoryType.expense).toList();
     return incomeData
         .map((e) => e.amount)
         .fold(0, (sum, value) => sum + value); // 시작값 지정
@@ -32,14 +33,14 @@ class PlanEntity {
 
   int calculateLeftAmount() {
     int leftAmount = 0;
-    if (type == 'FREE') {
+    if (type == PlanType.free) {
       leftAmount = planHistory
-          .where((history) => history.type == 'INCOME')
+          .where((history) => history.type == PlanHistoryType.income)
           .map((history) => history.amount)
           .fold(0, (sum, amount) => sum + amount);
     } else {
       final expense = planHistory
-          .where((history) => history.type == 'EXPENSE')
+          .where((history) => history.type == PlanHistoryType.expense)
           .map((history) => history.amount)
           .fold(0, (sum, amount) => sum + amount);
       leftAmount = totalAmount - expense;
@@ -47,3 +48,5 @@ class PlanEntity {
     return leftAmount;
   }
 }
+
+enum PlanType { set, free }
