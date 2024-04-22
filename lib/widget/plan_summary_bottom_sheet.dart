@@ -7,13 +7,12 @@ import '../entity/plan_history_entity.dart';
 import '../view_model/plan_view_model.dart';
 
 class PlanSummeryBottomSheet extends StatelessWidget {
-  BuildContext context2; // 이게 마자? 컨텍스트 관리 어케해요..?
-  PlanSummeryBottomSheet({required this.context2, super.key});
+  const PlanSummeryBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     final numberFormat = NumberFormat('###,###,###,###');
-    final viewModel = Provider.of<PlanViewModel>(context2);
+    final viewModel = context.read<PlanViewModel>();
 
     return FractionallySizedBox(
       //상위 부모의 사이즈 비율을 지정하여 child의 크기를 정하기
@@ -136,7 +135,7 @@ class PlanSummeryBottomSheet extends StatelessWidget {
                   ],
                 ),
               ),
-              ...context2.read<PlanViewModel>().plans.map(
+              ...context.read<PlanViewModel>().plans.map(
                     (plan) => PlanSummaryWidget(
                       plan: plan,
                     ),

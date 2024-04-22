@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final numberFormat = NumberFormat('###,###,###,###');
+    final numberFormat = NumberFormat('###,###,###,###'); // 나라를 지정하는 방법.
     return ChangeNotifierProvider<PlanViewModel>(
         create: (_) => PlanViewModel(),
         builder: (context, child) {

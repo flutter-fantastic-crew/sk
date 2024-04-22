@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sk/widget/plan_summary_bottom_sheet.dart';
-
+import '../view_model/plan_view_model.dart';
 import 'badge_widget.dart';
 
 class AppBarWidget extends AppBar {
   BuildContext context;
-
   AppBarWidget({required this.context, super.key})
       : super(
           backgroundColor: Colors.transparent,
@@ -21,7 +21,11 @@ class AppBarWidget extends AppBar {
                   ),
                 ),
                 builder: (_) {
-                  return PlanSummeryBottomSheet(context2: context);
+                  return ChangeNotifierProvider.value(
+                      value: context.read<PlanViewModel>(),
+                      builder: (context, child) {
+                        return const PlanSummeryBottomSheet();
+                      });
                 }),
             child: const Row(
               children: [
