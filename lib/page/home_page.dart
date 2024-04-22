@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sk/view_model/plan_view_model.dart';
@@ -60,66 +61,86 @@ class HomePage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 100,
-                                      ),
-                                      const Text(
-                                        '남은 예산',
-                                        style: TextStyle(
-                                          color: Colors.grey,
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 100,
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '${numberFormat.format(planViewModel.plans[index].totalExpenses)}원',
-                                            style: const TextStyle(
-                                              fontSize: 27,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black87,
+                                        const Text(
+                                          '남은 예산',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${numberFormat.format(planViewModel.plans[index].totalExpenses)}원',
+                                              style: const TextStyle(
+                                                fontSize: 27,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                              ),
                                             ),
+                                            const SizedBox(
+                                              width: 3,
+                                            ),
+                                            const Icon(
+                                              CupertinoIcons
+                                                  .chevron_compact_right,
+                                              size: 18,
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          '/ ${numberFormat.format(planViewModel.plans[index].totalAmount)}원',
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            color: Colors.grey,
                                           ),
-                                          const SizedBox(
-                                            width: 3,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(10), // 반경 설정
+                                    ),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        context.go('/addHistory');
+                                      },
+                                      style: ButtonStyle(
+                                        padding: MaterialStateProperty.all<
+                                            EdgeInsets>(
+                                          const EdgeInsets.all(15),
+                                        ),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                10), // 버튼 모양과 일치시키기 위해 중복 설정
                                           ),
-                                          const Icon(
-                                            CupertinoIcons
-                                                .chevron_compact_right,
-                                            size: 18,
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        '/ ${numberFormat.format(planViewModel.plans[index].totalAmount)}원',
-                                        style: const TextStyle(
-                                          fontSize: 17,
-                                          color: Colors.grey,
+                                        ),
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                          const Color(0xFF3D83F0),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 50,
-                                      ),
-                                      Column(
-                                        children: [
-                                          ElevatedButton(
-                                              onPressed: () => {}, child:
-                                          const Text(
-                                            '내역추가'
-                                          )),
-                                        ],
-                                      )
-                                    ],
-                                  )
+                                      child: const Text('내역 추가'),
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
