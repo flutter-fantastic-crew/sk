@@ -47,6 +47,15 @@ class PlanEntity {
     }
     return leftAmount;
   }
+
+  double getLeftDatePercent() {
+    DateTime now = DateTime.now();
+    int totalDays = endDate.difference(startDate).inDays;
+    int passedDays = now.difference(startDate).inDays;
+
+    int remainingDays = totalDays - passedDays;
+    return remainingDays < 0 ? 1.0 : (remainingDays / totalDays);
+  }
 }
 
 enum PlanType { set, free }

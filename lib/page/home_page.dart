@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:sk/entity/plan_entity.dart';
 import 'package:sk/view_model/plan_view_model.dart';
 import 'package:sk/widget/app_bar_widget.dart';
+import 'dart:math' as math;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -62,51 +65,115 @@ class HomePage extends StatelessWidget {
                                     ],
                                   ),
                                   Expanded(
-                                    child: Column(
+                                    child: Stack(
+                                      alignment: Alignment.center,
                                       children: [
-                                        const SizedBox(
-                                          height: 100,
-                                        ),
-                                        const Text(
-                                          '남은 예산',
-                                          style: TextStyle(
-                                            color: Colors.grey,
+                                        CircularPercentIndicator(
+                                          radius: 130.0,
+                                          lineWidth: 2.0,
+                                          percent: planViewModel.plans[index]
+                                              .getLeftDatePercent(),
+                                          backgroundColor:
+                                              const Color(0XFFEEEEEE),
+                                          progressColor: Colors.black87,
+                                          center: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              Transform.translate(
+                                                offset: Offset(
+                                                  (130 *
+                                                      math.cos(2 *
+                                                              math.pi *
+                                                              planViewModel
+                                                                  .plans[index]
+                                                                  .getLeftDatePercent() -
+                                                          math.pi /
+                                                              2)), // X 좌표 계산
+                                                  (130 *
+                                                      math.sin(2 *
+                                                              math.pi *
+                                                              planViewModel
+                                                                  .plans[index]
+                                                                  .getLeftDatePercent() -
+                                                          math.pi /
+                                                              2)), // Y 좌표 계산
+                                                ),
+                                                child: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.access_time_filled,
+                                                    color: Colors.black,
+                                                    size: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
+                                        planViewModel.plans[index].type ==
+                                                PlanType.set
+                                            ? CircularPercentIndicator(
+                                                radius: 120.0,
+                                                lineWidth: 12.0,
+                                                percent: 0.1,
+                                                backgroundColor:
+                                                    const Color(0XffEEEEEE),
+                                                progressColor: Colors.blue,
+                                                circularStrokeCap:
+                                                    CircularStrokeCap.round,
+                                                // center:
+                                              )
+                                            : const SizedBox(),
+                                        Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              '${numberFormat.format(planViewModel.plans[index].totalExpenses)}원',
-                                              style: const TextStyle(
-                                                fontSize: 27,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black87,
+                                            const Text(
+                                              '남은 예산',
+                                              style: TextStyle(
+                                                color: Colors.grey,
                                               ),
                                             ),
                                             const SizedBox(
-                                              width: 3,
+                                              height: 20,
                                             ),
-                                            const Icon(
-                                              CupertinoIcons
-                                                  .chevron_compact_right,
-                                              size: 18,
-                                            )
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  '${numberFormat.format(planViewModel.plans[index].totalExpenses)}원',
+                                                  style: const TextStyle(
+                                                    fontSize: 27,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black87,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 3,
+                                                ),
+                                                const Icon(
+                                                  CupertinoIcons
+                                                      .chevron_compact_right,
+                                                  size: 18,
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              '/ ${numberFormat.format(planViewModel.plans[index].totalAmount)}원',
+                                              style: const TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
                                           ],
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                          '/ ${numberFormat.format(planViewModel.plans[index].totalAmount)}원',
-                                          style: const TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.grey,
-                                          ),
                                         ),
                                       ],
                                     ),
@@ -138,7 +205,11 @@ class HomePage extends StatelessWidget {
                                           const Color(0xFF3D83F0),
                                         ),
                                       ),
-                                      child: const Text('내역 추가'),
+                                      child: const Text(
+                                        '내역 추가',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 ],
