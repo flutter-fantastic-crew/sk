@@ -8,7 +8,7 @@ class BadgeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 20,
-      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+      padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 5.0),
       decoration: BoxDecoration(
         color: Colors.black38,
         borderRadius: BorderRadius.circular(50),
