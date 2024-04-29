@@ -146,7 +146,7 @@ class PlanCardWidget extends StatelessWidget {
             ),
             child: ElevatedButton(
               onPressed: () {
-                context.go('/addHistory');
+                context.push('/addHistory');
               },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
