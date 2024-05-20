@@ -1,17 +1,28 @@
 import 'dart:math';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AddHistoryViewModel extends ChangeNotifier {
-  late TextEditingController expenseController;
-  late TextEditingController contentController;
-  late FocusNode focusNode = FocusNode();
-  late String emojiIcon;
-  late bool showClearButton = false;
-  late final DateTime _selectedDate;
+import '../entity/plan_history_entity.dart';
 
-  DateTime get selectedDate => _selectedDate;
+class AddHistoryViewModel extends ChangeNotifier {
+  final TextEditingController _expenseController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+  final FocusNode _expenseFocusNode = FocusNode();
+  late String _emojiIcon = _getRandomEmoji();
+  bool _showClearButton = false;
+  DateTime _date = DateTime.now();
+
+  TextEditingController get expenseController => _expenseController;
+
+  TextEditingController get contentController => _contentController;
+
+  FocusNode get expenseFocusNode => _expenseFocusNode;
+
+  String get emojiIcon => _emojiIcon;
+
+  bool get showClearButton => _showClearButton;
+
+  DateTime get date => _date;
 
   // final PlanHistoryEntity _planHistory = PlanHistoryEntity(
   //   id: 1,
@@ -28,88 +39,42 @@ class AddHistoryViewModel extends ChangeNotifier {
     '💡',
   ];
 
-  AddHistoryViewModel() {
-    expenseController = TextEditingController();
-    expenseController.addListener(_checkText);
-    contentController = TextEditingController();
-    focusNode = FocusNode();
-    focusNode.requestFocus();
-    emojiIcon = _getRandomEmoji();
-    _selectedDate = DateTime.now();
-    showClearButton = false;
-  }
-
   @override
   void dispose() {
-    expenseController.dispose();
-    contentController.dispose();
+    _expenseController.dispose();
+    _contentController.dispose();
     super.dispose();
   }
 
-  void _checkText() {
-    showClearButton = expenseController.text.isNotEmpty;
-    notifyListeners();
-  }
+  // void _checkText() {
+  //   _showClearButton = _expenseController.text.isNotEmpty;
+  //   notifyListeners();
+  // }
 
   void clearText() {
-    expenseController.clear();
+    _expenseController.clear();
     notifyListeners();
   }
 
-  String getFormattedDate() {
+  String getFormattedDate(selectedDate) {
     return DateFormat('MM월 dd일 EEE').format(selectedDate);
   }
 
   bool isToday() {
     final now = DateTime.now();
-    return selectedDate.year == now.year &&
-        selectedDate.month == now.month &&
-        selectedDate.day == now.day;
+    return _date.year == now.year &&
+        _date.month == now.month &&
+        _date.day == now.day;
   }
 
-  Future showDatePickers(BuildContext context) {
-    return showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    ).then((DateTime? pickedDate) {
-      if (pickedDate != null && pickedDate != _selectedDate) {
-        _selectedDate = pickedDate;
-        notifyListeners(); // 변경 알림을 여기서 호출합니다.
-      }
-    });
+  void setEmoji(String emojiIcon) {
+    _emojiIcon = emojiIcon;
+    notifyListeners();
   }
 
-  Future showEmojiPicker(BuildContext context) {
-    return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return EmojiPicker(
-          onEmojiSelected: (Category? category, Emoji? emoji) {
-            if (emoji != null) {
-              emojiIcon = emoji.emoji;
-              notifyListeners();
-            }
-            Navigator.pop(context);
-          },
-          config: const Config(
-            columns: 7,
-            emojiSizeMax: 32.0,
-            verticalSpacing: 0,
-            horizontalSpacing: 0,
-            initCategory: Category.RECENT,
-            bgColor: Color(0xFFF2F2F2),
-            indicatorColor: Colors.blue,
-            iconColor: Colors.grey,
-            iconColorSelected: Colors.blue,
-            recentsLimit: 28,
-            categoryIcons: CategoryIcons(),
-            buttonMode: ButtonMode.MATERIAL,
-          ),
-        );
-      },
-    );
+  void setDate(DateTime date) {
+    _date = date;
+    notifyListeners();
   }
 
   String _getRandomEmoji() {

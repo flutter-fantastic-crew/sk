@@ -1,8 +1,10 @@
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../view_model/add_history_view_model.dart';
+import '../widget/full_calendar_widget.dart';
 
 class AddHistoryPage extends StatefulWidget {
   const AddHistoryPage({super.key});
@@ -38,7 +40,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                   size: 14,
                 ),
                 onPressed: () {
-                  addHistoryViewModel.focusNode.unfocus();
+                  addHistoryViewModel.expenseFocusNode.unfocus();
                   context.pop();
                   // 바로가기 버튼이 눌렸을 때의 동작
                 },
@@ -116,7 +118,8 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                                     child: TextField(
                                       controller:
                                           addHistoryViewModel.expenseController,
-                                      focusNode: addHistoryViewModel.focusNode,
+                                      focusNode:
+                                          addHistoryViewModel.expenseFocusNode,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                           border: OutlineInputBorder(
@@ -187,9 +190,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                                   const Size(60, 60),
                                 ),
                               ),
-                              onPressed: () => {
-                                addHistoryViewModel.showEmojiPicker(context),
-                              },
+                              onPressed: () => showEmojiPicker,
                               child: Text(
                                 addHistoryViewModel.emojiIcon,
                                 style: const TextStyle(
@@ -222,36 +223,25 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                         ),
                         child: Row(
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                addHistoryViewModel.showDatePickers(context);
-                              },
-                              style: ButtonStyle(
-                                elevation:
-                                    MaterialStateProperty.all<double?>(0),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  const Color(0xffEEEEEE),
+                            GestureDetector(
+                              onTap: () => showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (_) {
+                                    return const FullCalendarWidget();
+                                  }),
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 20, right: 15),
+                                child: const Icon(
+                                  Icons.calendar_month_outlined,
+                                  color: Colors.black38,
                                 ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                minimumSize: MaterialStateProperty.all<Size?>(
-                                  const Size(60, 60),
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.calendar_month_outlined,
-                                color: Colors.black38,
-                              ),
+                              )
                             ),
                             const SizedBox(width: 10),
                             Text(
                               DateFormat('MM월 dd일 EEE')
-                                  .format(addHistoryViewModel.selectedDate),
+                                  .format(addHistoryViewModel.date),
                               style: const TextStyle(fontSize: 18),
                             ),
                             Expanded(
@@ -339,6 +329,38 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
             ),
           );
         });
+      },
+    );
+  }
+
+  void showEmojiPicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return EmojiPicker(
+          onEmojiSelected: (Category? category, Emoji? emoji) {
+            if (emoji != null) {
+              context
+                  .read<AddHistoryViewModel>()
+                  .setEmoji(emoji.emoji.toString());
+            }
+            Navigator.pop(context);
+          },
+          config: const Config(
+            columns: 7,
+            emojiSizeMax: 32.0,
+            verticalSpacing: 0,
+            horizontalSpacing: 0,
+            initCategory: Category.RECENT,
+            bgColor: Color(0xFFF2F2F2),
+            indicatorColor: Colors.blue,
+            iconColor: Colors.grey,
+            iconColorSelected: Colors.blue,
+            recentsLimit: 28,
+            categoryIcons: CategoryIcons(),
+            buttonMode: ButtonMode.MATERIAL,
+          ),
+        );
       },
     );
   }
