@@ -82,18 +82,18 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                           ElevatedButton(
                             style: ButtonStyle(
                                 elevation:
-                                    MaterialStateProperty.all<double?>(0),
+                                    WidgetStateProperty.all<double?>(0),
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                    WidgetStateProperty.all<Color>(
                                   const Color(0xffEEEEEE),
                                 ),
-                                shape: MaterialStateProperty.all<
+                                shape: WidgetStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                minimumSize: MaterialStateProperty.all<Size?>(
+                                minimumSize: WidgetStateProperty.all<Size?>(
                                     const Size(60, 60))),
                             onPressed: () => {},
                             child: const Icon(
@@ -175,18 +175,18 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                             ElevatedButton(
                               style: ButtonStyle(
                                 elevation:
-                                    MaterialStateProperty.all<double?>(0),
+                                    WidgetStateProperty.all<double?>(0),
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                    WidgetStateProperty.all<Color>(
                                   const Color(0xffEEEEEE),
                                 ),
-                                shape: MaterialStateProperty.all<
+                                shape: WidgetStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                minimumSize: MaterialStateProperty.all<Size?>(
+                                minimumSize: WidgetStateProperty.all<Size?>(
                                   const Size(60, 60),
                                 ),
                               ),
@@ -299,17 +299,17 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
+                            padding: WidgetStateProperty.all<EdgeInsets>(
                               const EdgeInsets.all(18),
                             ),
-                            shape: MaterialStateProperty.all<
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     10), // 버튼 모양과 일치시키기 위해 중복 설정
                               ),
                             ),
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                               const Color(0xFF3D83F0),
                             ),
                           ),
