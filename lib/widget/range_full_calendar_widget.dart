@@ -2,15 +2,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class FullCalendarWidget extends StatefulWidget {
-  const FullCalendarWidget({super.key});
+class RangeFullCalendarWidget extends StatefulWidget {
+  const RangeFullCalendarWidget({super.key});
 
   @override
-  State<FullCalendarWidget> createState() => _FullCalendarWidget();
+  State<RangeFullCalendarWidget> createState() => _RangeFullCalendarWidget();
 }
 
 // 기간 선택이 가능한 달력 추가
-class _FullCalendarWidget extends State<FullCalendarWidget> {
+class _RangeFullCalendarWidget extends State<RangeFullCalendarWidget> {
   final DateTime _firstDay =
       DateTime(DateTime.now().year - 1, DateTime.now().month, 1);
   final DateTime _lastDay =
@@ -111,7 +111,7 @@ class _FullCalendarWidget extends State<FullCalendarWidget> {
                         return Center(
                           child: Container(
                             margin: const EdgeInsets.all(4.0),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Colors.blue,
                               shape: BoxShape.circle,
                             ),
@@ -120,7 +120,7 @@ class _FullCalendarWidget extends State<FullCalendarWidget> {
                             child: Center(
                               child: Text(
                                 '${day.day}',
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
@@ -130,7 +130,7 @@ class _FullCalendarWidget extends State<FullCalendarWidget> {
                         return Center(
                           child: Container(
                             margin: const EdgeInsets.all(4.0),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Colors.blue,
                               shape: BoxShape.circle,
                             ),
@@ -158,7 +158,7 @@ class _FullCalendarWidget extends State<FullCalendarWidget> {
                             child: Center(
                               child: Text(
                                 '${day.day}',
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ),
                           ),

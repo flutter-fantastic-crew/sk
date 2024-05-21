@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../view_model/add_history_view_model.dart';
-import '../widget/full_calendar_widget.dart';
+import '../widget/select_full_calendar_widget.dart';
 
 class AddHistoryPage extends StatefulWidget {
   const AddHistoryPage({super.key});
@@ -81,10 +81,8 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                         children: [
                           ElevatedButton(
                             style: ButtonStyle(
-                                elevation:
-                                    WidgetStateProperty.all<double?>(0),
-                                backgroundColor:
-                                    WidgetStateProperty.all<Color>(
+                                elevation: WidgetStateProperty.all<double?>(0),
+                                backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color(0xffEEEEEE),
                                 ),
                                 shape: WidgetStateProperty.all<
@@ -174,10 +172,8 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                           children: [
                             ElevatedButton(
                               style: ButtonStyle(
-                                elevation:
-                                    WidgetStateProperty.all<double?>(0),
-                                backgroundColor:
-                                    WidgetStateProperty.all<Color>(
+                                elevation: WidgetStateProperty.all<double?>(0),
+                                backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color(0xffEEEEEE),
                                 ),
                                 shape: WidgetStateProperty.all<
@@ -224,20 +220,35 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                         child: Row(
                           children: [
                             GestureDetector(
-                              onTap: () => showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (_) {
-                                    return const FullCalendarWidget();
-                                  }),
-                              child: Container(
-                                margin: const EdgeInsets.only(left: 20, right: 15),
-                                child: const Icon(
-                                  Icons.calendar_month_outlined,
-                                  color: Colors.black38,
-                                ),
-                              )
-                            ),
+                                onTap: () => showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (_) {
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.66,
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: ListView.builder(
+                                                itemCount: 36,
+                                                itemBuilder: (context, index) {
+                                                  return SelectFullCalendarWidget(
+                                                      monthIndex: index);
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 20, right: 15),
+                                  child: const Icon(
+                                    Icons.calendar_month_outlined,
+                                    color: Colors.black38,
+                                  ),
+                                )),
                             const SizedBox(width: 10),
                             Text(
                               DateFormat('MM월 dd일 EEE')
@@ -302,8 +313,8 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                             padding: WidgetStateProperty.all<EdgeInsets>(
                               const EdgeInsets.all(18),
                             ),
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     10), // 버튼 모양과 일치시키기 위해 중복 설정
