@@ -5,18 +5,20 @@ import 'package:intl/intl.dart';
 import '../entity/plan_history_entity.dart';
 
 class AddHistoryViewModel extends ChangeNotifier {
-  final TextEditingController _expenseController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
-  final FocusNode _expenseFocusNode = FocusNode();
+  final FocusNode _priceFocusNode = FocusNode();
   late String _emojiIcon = _getRandomEmoji();
   bool _showClearButton = false;
   DateTime _date = DateTime.now();
 
-  TextEditingController get expenseController => _expenseController;
+  AddHistoryViewModel(planId);
+
+  TextEditingController get priceController => _priceController;
 
   TextEditingController get contentController => _contentController;
 
-  FocusNode get expenseFocusNode => _expenseFocusNode;
+  FocusNode get priceFocusNode => _priceFocusNode;
 
   String get emojiIcon => _emojiIcon;
 
@@ -24,13 +26,13 @@ class AddHistoryViewModel extends ChangeNotifier {
 
   DateTime get date => _date;
 
-  // final PlanHistoryEntity _planHistory = PlanHistoryEntity(
-  //   id: 1,
-  //   type: PlanHistoryType.expense,
-  //   amount: 2000,
-  //   memo: '부득 부득이한 지출',
-  //   createAt: DateTime.now(),
-  // );
+  final PlanHistoryEntity _planHistory = PlanHistoryEntity(
+    id: 1,
+    type: PlanHistoryType.expense,
+    amount: 2000,
+    memo: '부득 부득이한 지출',
+    createAt: DateTime.now(),
+  );
 
   final List<String> _emojiList = [
     '😊',
@@ -41,7 +43,7 @@ class AddHistoryViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    _expenseController.dispose();
+    _priceController.dispose();
     _contentController.dispose();
     super.dispose();
   }
@@ -52,7 +54,7 @@ class AddHistoryViewModel extends ChangeNotifier {
   // }
 
   void clearText() {
-    _expenseController.clear();
+    _priceController.clear();
     notifyListeners();
   }
 
@@ -80,5 +82,14 @@ class AddHistoryViewModel extends ChangeNotifier {
   String _getRandomEmoji() {
     final random = Random();
     return _emojiList[random.nextInt(_emojiList.length)];
+  }
+
+  PlanHistoryEntity get toPlanHistoryEntity {
+    return PlanHistoryEntity(
+        id: 200,
+        type: PlanHistoryType.expense,
+        amount: int.parse(_priceController.text.replaceAll(',', '')),
+        memo: _contentController.text,
+        createAt: _date);
   }
 }

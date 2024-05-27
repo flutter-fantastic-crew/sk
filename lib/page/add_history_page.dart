@@ -6,23 +6,15 @@ import 'package:provider/provider.dart';
 import '../view_model/add_history_view_model.dart';
 import '../widget/select_full_calendar_widget.dart';
 
-class AddHistoryPage extends StatefulWidget {
-  const AddHistoryPage({super.key});
+class AddHistoryPage extends StatelessWidget {
+  final String planId;
 
-  @override
-  State<AddHistoryPage> createState() => _AddHistoryPageState();
-}
-
-class _AddHistoryPageState extends State<AddHistoryPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  const AddHistoryPage({super.key, required this.planId});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AddHistoryViewModel>(
-      create: (_) => AddHistoryViewModel(),
+      create: (_) => AddHistoryViewModel(planId),
       builder: (context, child) {
         return Consumer<AddHistoryViewModel>(
             builder: (_, addHistoryViewModel, __) {
@@ -40,7 +32,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                   size: 14,
                 ),
                 onPressed: () {
-                  addHistoryViewModel.expenseFocusNode.unfocus();
+                  addHistoryViewModel.priceFocusNode.unfocus();
                   context.pop();
                   // 바로가기 버튼이 눌렸을 때의 동작
                 },
@@ -115,9 +107,9 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                                   Expanded(
                                     child: TextField(
                                       controller:
-                                          addHistoryViewModel.expenseController,
+                                          addHistoryViewModel.priceController,
                                       focusNode:
-                                          addHistoryViewModel.expenseFocusNode,
+                                          addHistoryViewModel.priceFocusNode,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                           border: OutlineInputBorder(
@@ -186,7 +178,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                                   const Size(60, 60),
                                 ),
                               ),
-                              onPressed: () => showEmojiPicker,
+                              onPressed: () => showEmojiPicker(context),
                               child: Text(
                                 addHistoryViewModel.emojiIcon,
                                 style: const TextStyle(
@@ -220,35 +212,26 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                         child: Row(
                           children: [
                             GestureDetector(
-                                onTap: () => showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    builder: (_) {
-                                      return FractionallySizedBox(
-                                        heightFactor: 0.66,
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: ListView.builder(
-                                                itemCount: 36,
-                                                itemBuilder: (context, index) {
-                                                  return SelectFullCalendarWidget(
-                                                      monthIndex: index);
-                                                },
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 20, right: 15),
-                                  child: const Icon(
-                                    Icons.calendar_month_outlined,
-                                    color: Colors.black38,
-                                  ),
-                                )),
+                              onTap: () => showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (_) {
+                                    return ChangeNotifierProvider.value(
+                                        value:
+                                            context.read<AddHistoryViewModel>(),
+                                        builder: (context, child) {
+                                          return const SelectFullCalendarWidget();
+                                        });
+                                  }),
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.only(left: 20, right: 15),
+                                child: const Icon(
+                                  Icons.calendar_month_outlined,
+                                  color: Colors.black38,
+                                ),
+                              ),
+                            ),
                             const SizedBox(width: 10),
                             Text(
                               DateFormat('MM월 dd일 EEE')
@@ -308,7 +291,11 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                           borderRadius: BorderRadius.circular(10), // 반경 설정
                         ),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.pop(context
+                                .read<AddHistoryViewModel>()
+                                .toPlanHistoryEntity);
+                          },
                           style: ButtonStyle(
                             padding: WidgetStateProperty.all<EdgeInsets>(
                               const EdgeInsets.all(18),
@@ -344,7 +331,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
     );
   }
 
-  void showEmojiPicker() {
+  void showEmojiPicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
