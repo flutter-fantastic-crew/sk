@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sk/view_model/plan_view_model.dart';
 
+import '../entity/plan_entity.dart';
 import '../entity/plan_history_entity.dart';
 
 class AddHistoryViewModel extends ChangeNotifier {
@@ -11,8 +13,13 @@ class AddHistoryViewModel extends ChangeNotifier {
   late String _emojiIcon = _getRandomEmoji();
   bool _showClearButton = false;
   DateTime _date = DateTime.now();
+  late PlanEntity _plan;
 
-  AddHistoryViewModel(planId);
+  AddHistoryViewModel(String planId) {
+    getPlan(planId);
+  }
+
+  PlanEntity get plan => _plan;
 
   TextEditingController get priceController => _priceController;
 
@@ -26,14 +33,6 @@ class AddHistoryViewModel extends ChangeNotifier {
 
   DateTime get date => _date;
 
-  final PlanHistoryEntity _planHistory = PlanHistoryEntity(
-    id: 1,
-    type: PlanHistoryType.expense,
-    amount: 2000,
-    memo: '부득 부득이한 지출',
-    createAt: DateTime.now(),
-  );
-
   final List<String> _emojiList = [
     '😊',
     '🍵',
@@ -46,6 +45,15 @@ class AddHistoryViewModel extends ChangeNotifier {
     _priceController.dispose();
     _contentController.dispose();
     super.dispose();
+  }
+
+  void getPlan(String planId) {
+    for (var plan in PlanViewModel().plans) {
+      if (plan.id == int.parse(planId)) {
+         _plan = plan;
+        break;
+      }
+    }
   }
 
   // void _checkText() {
@@ -84,9 +92,20 @@ class AddHistoryViewModel extends ChangeNotifier {
     return _emojiList[random.nextInt(_emojiList.length)];
   }
 
+  // 일련번호 추출을 위한 임시 코드
+  int getMaxId(List<PlanHistoryEntity> planHistories) {
+    int maxId = 0;
+    for (var entity in planHistories) {
+      if (entity.id > maxId) {
+        maxId = entity.id;
+      }
+    }
+    return maxId;
+  }
+
   PlanHistoryEntity get toPlanHistoryEntity {
     return PlanHistoryEntity(
-        id: 200,
+        id: getMaxId(_plan.planHistory),
         type: PlanHistoryType.expense,
         amount: int.parse(_priceController.text.replaceAll(',', '')),
         memo: _contentController.text,

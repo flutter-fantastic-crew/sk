@@ -12,6 +12,11 @@ class PlanHistoryEntity {
     required this.memo,
     required this.createAt,
   });
+
+  @override
+  String toString() {
+    return 'PlanHistoryEntity(id: $id, type: $type, memo: $memo, createAt: $createAt, amount: $amount)';
+  }
 }
 
 enum PlanHistoryType { expense, income }

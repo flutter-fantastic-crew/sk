@@ -12,7 +12,7 @@ class PlanViewModel extends ChangeNotifier {
 
   final List<PlanEntity> _plans = [
     PlanEntity(
-        id: 0,
+        id: 1,
         type: PlanType.free,
         startDate: DateTime.now().subtract(const Duration(days:30)),
         endDate: DateTime.now().subtract(const Duration(days:28)),
@@ -21,14 +21,14 @@ class PlanViewModel extends ChangeNotifier {
         icon: "😀",
         planHistory: [
           PlanHistoryEntity(
-            id: 0,
+            id: 1,
             type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 500,
           ),
           PlanHistoryEntity(
-            id: 1,
+            id: 2,
             type: PlanHistoryType.income,
             memo: "메모2",
             createAt: DateTime.now(),
@@ -37,7 +37,7 @@ class PlanViewModel extends ChangeNotifier {
         ],
         totalAmount: 0),
     PlanEntity(
-        id: 1,
+        id: 2,
         type: PlanType.set,
         startDate: DateTime.now().subtract(const Duration(days:15)),
         endDate: DateTime.now().subtract(const Duration(days:10)),
@@ -46,14 +46,14 @@ class PlanViewModel extends ChangeNotifier {
         icon: "😍",
         planHistory: [
           PlanHistoryEntity(
-            id: 0,
+            id: 1,
             type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 700,
           ),
           PlanHistoryEntity(
-            id: 1,
+            id: 2,
             type: PlanHistoryType.expense,
             memo: "메모2",
             createAt: DateTime.now(),
@@ -62,7 +62,7 @@ class PlanViewModel extends ChangeNotifier {
         ],
         totalAmount: 1000),
     PlanEntity(
-        id: 1,
+        id: 3,
         type: PlanType.set,
         startDate: DateTime.now().subtract(const Duration(days:15)),
         endDate: DateTime.now().add(const Duration(days: 1)),
@@ -71,14 +71,14 @@ class PlanViewModel extends ChangeNotifier {
         icon: "😇",
         planHistory: [
           PlanHistoryEntity(
-            id: 0,
+            id: 1,
             type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 300,
           ),
           PlanHistoryEntity(
-            id: 1,
+            id: 2,
             type: PlanHistoryType.expense,
             memo: "메모2",
             createAt: DateTime.now(),
@@ -87,7 +87,7 @@ class PlanViewModel extends ChangeNotifier {
         ],
         totalAmount: 1000),
     PlanEntity(
-        id: 1,
+        id: 4,
         type: PlanType.free,
         startDate: DateTime.now().subtract(const Duration(days:7)),
         endDate: DateTime.now().add(const Duration(days: 3)),
@@ -96,14 +96,14 @@ class PlanViewModel extends ChangeNotifier {
         icon: "🤓",
         planHistory: [
           PlanHistoryEntity(
-            id: 0,
+            id: 1,
             type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
             amount: 200,
           ),
           PlanHistoryEntity(
-            id: 1,
+            id: 2,
             type: PlanHistoryType.expense,
             memo: "메모2",
             createAt: DateTime.now(),
@@ -112,7 +112,7 @@ class PlanViewModel extends ChangeNotifier {
         ],
         totalAmount: 1000),
     PlanEntity(
-        id: 1,
+        id: 5,
         type: PlanType.free,
         startDate: DateTime.now().subtract(const Duration(days:7)),
         endDate: DateTime.now().add(const Duration(days: 3)),
@@ -130,7 +130,7 @@ class PlanViewModel extends ChangeNotifier {
         ],
         totalAmount: 500),
     PlanEntity(
-        id: 1,
+        id: 6,
         type: PlanType.set,
         startDate: DateTime.now().subtract(const Duration(days:7)),
         endDate: DateTime.now().add(const Duration(days: 3)),
@@ -139,7 +139,7 @@ class PlanViewModel extends ChangeNotifier {
         icon: "🦾",
         planHistory: [
           PlanHistoryEntity(
-            id: 0,
+            id: 1,
             type: PlanHistoryType.expense,
             memo: "메모1",
             createAt: DateTime.now(),
@@ -184,5 +184,14 @@ class PlanViewModel extends ChangeNotifier {
   void changePage(int currentPage) {
     _currentPage = currentPage;
     notifyListeners(); // 컨슈밍하고 있는 대상에게 리빌딩 하도록 알려줌
+  }
+
+  void addPlanHistory(int planId, PlanHistoryEntity planHistory) {
+    _plans.map((plan) {
+      if (plan.id == planId) {
+        plan.planHistory.add(planHistory);
+      }
+    }).toList();
+    notifyListeners();
   }
 }

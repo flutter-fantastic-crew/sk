@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:sk/entity/plan_entity.dart';
 import 'dart:math' as math;
+
+import '../entity/plan_history_entity.dart';
+import '../view_model/plan_view_model.dart';
 
 class PlanCardWidget extends StatelessWidget {
   final PlanEntity plan;
@@ -146,7 +150,13 @@ class PlanCardWidget extends StatelessWidget {
             ),
             child: ElevatedButton(
               onPressed: () {
-                context.push('/addHistory');
+                context.push('/plan/${plan.id}/addHistory').then((value) {
+                  if (value is PlanHistoryEntity) {
+                    context
+                        .read<PlanViewModel>()
+                        .addPlanHistory(plan.id, value);
+                  }
+                });
               },
               style: ButtonStyle(
                 padding: WidgetStateProperty.all<EdgeInsets>(

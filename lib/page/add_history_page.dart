@@ -37,11 +37,11 @@ class AddHistoryPage extends StatelessWidget {
                   // 바로가기 버튼이 눌렸을 때의 동작
                 },
               ),
-              title: const Column(
+              title: Column(
                 children: [
                   Text(
-                    '내역 추가', // 첫 번째 줄 텍스트
-                    style: TextStyle(
+                    addHistoryViewModel.plan.name,
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,
@@ -49,8 +49,8 @@ class AddHistoryPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    '계획 제목', // 두 번째 줄 텍스트
-                    style: TextStyle(
+                    addHistoryViewModel.plan.memo,
+                    style: const TextStyle(
                       fontSize: 10,
                       color: Colors.black38,
                       fontWeight: FontWeight.w500,
