@@ -313,7 +313,11 @@ class AddHistoryPage extends StatelessWidget {
                           ),
                           child: const Text(
                             '저장',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
