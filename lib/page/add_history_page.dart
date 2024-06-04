@@ -220,7 +220,18 @@ class AddHistoryPage extends StatelessWidget {
                                         value:
                                             context.read<AddHistoryViewModel>(),
                                         builder: (context, child) {
-                                          return SelectFullCalendarWidget();
+                                          return SelectFullCalendarWidget(
+                                              firstDay: DateTime(
+                                                  DateTime.now().year - 3,
+                                                  DateTime.now().month,
+                                                  1),
+                                              lastDay: DateTime(
+                                                  DateTime.now().year + 3,
+                                                  DateTime.now().month,
+                                                  0),
+                                              now: context
+                                                  .read<AddHistoryViewModel>()
+                                                  .date);
                                         });
                                   }),
                               child: Container(
