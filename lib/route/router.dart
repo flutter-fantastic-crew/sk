@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sk/page/add_history_page.dart';
+import 'package:sk/page/add_plan_page.dart';
 import 'package:sk/page/home_page.dart';
 
 final router = GoRouter(
@@ -19,8 +20,16 @@ final router = GoRouter(
                 planId: state.pathParameters['id']!,
               ),
             );
-          }
-        )
+          },
+        ),
+        GoRoute(
+          path: 'addPlan',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const CupertinoPage(
+              child: AddPlanPage(),
+            );
+          },
+        ),
       ],
     ),
   ],

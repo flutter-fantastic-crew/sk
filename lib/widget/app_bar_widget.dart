@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sk/widget/plan_summary_bottom_sheet.dart';
 import '../view_model/plan_view_model.dart';
@@ -6,6 +7,7 @@ import 'badge_widget.dart';
 
 class AppBarWidget extends AppBar {
   BuildContext context;
+
   AppBarWidget({required this.context, super.key})
       : super(
           backgroundColor: Colors.transparent,
@@ -46,7 +48,9 @@ class AppBarWidget extends AppBar {
                 Icons.add,
                 color: Colors.black38,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.push('/addPlan');
+              },
             ),
             IconButton(
               icon: const Icon(
