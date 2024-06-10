@@ -53,6 +53,7 @@ class SelectFullCalendarWidget extends StatelessWidget {
                   return isSameDay(selectedDay, day);
                 },
                 onDaySelected: (selectedDay, focusedDay) {
+                  // TODO: 해당 위젯을 공통모듈로 사용하려고 할 때, 뷰모델은 아래처럼 특정해서 가져와야만 하는가?
                   context.read<AddHistoryViewModel>().setDate(selectedDay);
                   context.pop();
                 },
