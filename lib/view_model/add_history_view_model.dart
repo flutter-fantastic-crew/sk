@@ -10,12 +10,19 @@ class AddHistoryViewModel extends ChangeNotifier {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   final FocusNode _priceFocusNode = FocusNode();
+  final FocusNode _contentFocusNode = FocusNode();
   late String _emojiIcon = _getRandomEmoji();
-  bool _showClearButton = false;
-  DateTime _date = DateTime.now();
+  bool _showPriceClearButton = false;
+  bool _showContentClearButton = false;
   late PlanEntity _plan;
+  DateTime _date = DateTime.now();
 
   AddHistoryViewModel(String planId) {
+    _priceController.addListener(() => _onTextFieldChanged('price'));
+    _contentController.addListener(() => _onTextFieldChanged('content'));
+
+    _priceFocusNode.addListener(_onFocusChanged);
+    _contentFocusNode.addListener(_onFocusChanged);
     getPlan(planId);
   }
 
@@ -25,11 +32,15 @@ class AddHistoryViewModel extends ChangeNotifier {
 
   TextEditingController get contentController => _contentController;
 
+  bool get showPriceClearButton => _showPriceClearButton;
+
+  bool get showContentClearButton => _showContentClearButton;
+
   FocusNode get priceFocusNode => _priceFocusNode;
 
-  String get emojiIcon => _emojiIcon;
+  FocusNode get contentFocusNode => _contentFocusNode;
 
-  bool get showClearButton => _showClearButton;
+  String get emojiIcon => _emojiIcon;
 
   DateTime get date => _date;
 
@@ -47,19 +58,34 @@ class AddHistoryViewModel extends ChangeNotifier {
     super.dispose();
   }
 
+  void _onTextFieldChanged(String key) {
+    if (key == 'price') {
+      _showPriceClearButton = _priceController.text.isNotEmpty;
+    } else if (key == 'content') {
+      _showContentClearButton = _contentController.text.isNotEmpty;
+    }
+    notifyListeners();
+  }
+
+  void _onFocusChanged() {
+    if (_priceFocusNode.hasFocus) {
+      _showContentClearButton = false;
+      _showPriceClearButton = _priceController.text.isNotEmpty;
+    } else if (_contentFocusNode.hasFocus) {
+      _showPriceClearButton = false;
+      _showContentClearButton = _contentController.text.isNotEmpty;
+    }
+    notifyListeners();
+  }
+
   void getPlan(String planId) {
     for (var plan in PlanViewModel().plans) {
       if (plan.id == int.parse(planId)) {
-         _plan = plan;
+        _plan = plan;
         break;
       }
     }
   }
-
-  // void _checkText() {
-  //   _showClearButton = _expenseController.text.isNotEmpty;
-  //   notifyListeners();
-  // }
 
   void clearText() {
     _priceController.clear();
@@ -75,6 +101,16 @@ class AddHistoryViewModel extends ChangeNotifier {
     return _date.year == now.year &&
         _date.month == now.month &&
         _date.day == now.day;
+  }
+
+  void setPriceClearButton() {
+    _showPriceClearButton = _priceController.text.isNotEmpty;
+    notifyListeners();
+  }
+
+  void setContentClearButton() {
+    _showPriceClearButton = _contentController.text.isNotEmpty;
+    notifyListeners();
   }
 
   void setEmoji(String emojiIcon) {

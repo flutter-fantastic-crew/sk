@@ -112,26 +112,33 @@ class AddHistoryPage extends StatelessWidget {
                                           addHistoryViewModel.priceFocusNode,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          hintText: '수입 금액',
-                                          hintStyle: const TextStyle(
-                                            fontSize: 18,
-                                          )),
-                                    ),
-                                  ),
-                                  if (addHistoryViewModel.showClearButton)
-                                    InkWell(
-                                      onTap: addHistoryViewModel.clearText,
-                                      child: const Icon(
-                                        Icons.clear_rounded,
-                                        size: 17,
-                                        color: Colors.grey,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        hintText: '수입 금액',
+                                        hintStyle: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                        suffixIcon: addHistoryViewModel
+                                                .showPriceClearButton
+                                            ? GestureDetector(
+                                                onTap: () => {
+                                                  addHistoryViewModel
+                                                      .priceController
+                                                      .clear()
+                                                },
+                                                child: const Icon(
+                                                  Icons.cancel,
+                                                  color: Colors.black38,
+                                                  size: 17,
+                                                ),
+                                              )
+                                            : null,
                                       ),
                                     ),
+                                  ),
                                   const SizedBox(
                                     width: 5,
                                   ),
@@ -190,10 +197,26 @@ class AddHistoryPage extends StatelessWidget {
                               child: TextField(
                                 controller:
                                     addHistoryViewModel.contentController,
-                                decoration: const InputDecoration(
+                                focusNode: addHistoryViewModel.contentFocusNode,
+                                decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: '내용',
-                                  hintStyle: TextStyle(fontSize: 18),
+                                  hintStyle: const TextStyle(fontSize: 18),
+                                  suffixIcon:
+                                      addHistoryViewModel.showContentClearButton
+                                          ? GestureDetector(
+                                              onTap: () => {
+                                                addHistoryViewModel
+                                                    .contentController
+                                                    .clear()
+                                              },
+                                              child: const Icon(
+                                                Icons.cancel,
+                                                color: Colors.black38,
+                                                size: 17,
+                                              ),
+                                            )
+                                          : null,
                                 ),
                               ),
                             ),
