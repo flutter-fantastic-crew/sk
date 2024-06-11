@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sk/view_model/range_full_calendar_widget_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../view_model/add_plan_view_model.dart';
+
 class RangeFullCalendarWidget extends StatelessWidget {
   final DateTime _firstDay;
   final DateTime _lastDay;
@@ -25,7 +27,7 @@ class RangeFullCalendarWidget extends StatelessWidget {
       create: (_) => RangeFullCalendarWidgetViewModel(),
       builder: (context, child) {
         return Consumer<RangeFullCalendarWidgetViewModel>(
-          builder: (_, rangeFullCalendarWidgetViewModel, __) {
+          builder: (context, rangeFullCalendarWidgetViewModel, __) {
             return FractionallySizedBox(
               heightFactor: 0.66,
               child: Scrollbar(
@@ -126,7 +128,8 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         '${day.day}',
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -205,10 +208,14 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                                 .rangeStartDay,
                                             rangeFullCalendarWidgetViewModel
                                                 .rangeEndDay);
-                                    // TODO: 상위 위젯으로 전달, 프로바이더 중첩... 뭔가 이상...
+                                    context
+                                        .read<AddPlanViewModel>()
+                                        .setRangeText(
+                                            rangeFullCalendarWidgetViewModel
+                                                .rangeText);
                                     context.pop();
                                   },
-                                  child: Text('선택'),
+                                  child: const Text('선택'),
                                 ),
                               ),
                             ],

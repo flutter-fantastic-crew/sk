@@ -9,14 +9,17 @@ class AddPlanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showBottomSheet(context);
-    });
-
     return ChangeNotifierProvider<AddPlanViewModel>(
       create: (_) => AddPlanViewModel(),
-      builder: (context, child) {
-        return Consumer<AddPlanViewModel>(builder: (_, addPlanViewModel, __) {
+      child: Builder(
+        builder: (context) {
+          if (context.read<AddPlanViewModel>().bottomSheetShown) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _showBottomSheet(context, 'entry');
+              context.read<AddPlanViewModel>().setBottomSheetShown(false);
+            });
+          }
+          // 페이지 진입 시 바텀시트 노출
           return Scaffold(
             appBar: AppBar(
               centerTitle: false,
@@ -60,7 +63,7 @@ class AddPlanPage extends StatelessWidget {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () => _showBottomSheet(context),
+                          onTap: () => _showBottomSheet(context, 'click'),
                           child: const Row(
                             children: [
                               SizedBox(width: 20),
@@ -73,10 +76,10 @@ class AddPlanPage extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          addPlanViewModel.rangeText.isNotEmpty
-                              ? addPlanViewModel.rangeText
+                          context.watch<AddPlanViewModel>().rangeText.isNotEmpty
+                              ? context.read<AddPlanViewModel>().rangeText
                               : '기간',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
@@ -122,22 +125,26 @@ class AddPlanPage extends StatelessWidget {
               ),
             ),
           );
-        });
-      },
+        },
+      ),
     );
   }
 
-  void _showBottomSheet(BuildContext context) {
-    Future.delayed(const Duration(seconds: 1), () {
+  void _showBottomSheet(BuildContext context, String type) {
+    Future.delayed(Duration(seconds: type == 'entry' ? 1 : 0), () {
       showModalBottomSheet(
           isScrollControlled: true,
           context: context,
           builder: (_) {
-            return RangeFullCalendarWidget(
-                firstDay:
-                    DateTime(DateTime.now().year - 3, DateTime.now().month, 1),
-                lastDay:
-                    DateTime(DateTime.now().year + 3, DateTime.now().month, 1));
+            return ChangeNotifierProvider.value(
+                value: context.read<AddPlanViewModel>(),
+                builder: (context, child) {
+                  return RangeFullCalendarWidget(
+                      firstDay: DateTime(
+                          DateTime.now().year - 3, DateTime.now().month, 1),
+                      lastDay: DateTime(
+                          DateTime.now().year + 3, DateTime.now().month, 1));
+                });
           });
     });
   }
