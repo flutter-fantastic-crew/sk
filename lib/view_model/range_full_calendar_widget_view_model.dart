@@ -4,11 +4,14 @@ import 'package:intl/intl.dart';
 class RangeFullCalendarWidgetViewModel extends ChangeNotifier {
   DateTime? _rangeStartDay;
   DateTime? _rangeEndDay;
+  DateTime _focusDay = DateTime.now();
   String _rangeText = '';
 
   DateTime? get rangeStartDay => _rangeStartDay;
 
   DateTime? get rangeEndDay => _rangeEndDay;
+
+  DateTime get focusDay => _focusDay;
 
   String get rangeText => _rangeText;
 
@@ -19,6 +22,11 @@ class RangeFullCalendarWidgetViewModel extends ChangeNotifier {
 
   void setRangeEndDay(DateTime rangeEndDay) {
     _rangeEndDay = rangeEndDay;
+    notifyListeners();
+  }
+
+  void setFocusDay(DateTime focusDay) {
+    _focusDay = focusDay;
     notifyListeners();
   }
 

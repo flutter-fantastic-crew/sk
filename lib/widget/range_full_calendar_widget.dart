@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,6 @@ import '../view_model/add_plan_view_model.dart';
 class RangeFullCalendarWidget extends StatelessWidget {
   final DateTime _firstDay;
   final DateTime _lastDay;
-  final DateTime _focusedDay = DateTime.now();
 
   RangeFullCalendarWidget({
     Key? key,
@@ -28,6 +28,7 @@ class RangeFullCalendarWidget extends StatelessWidget {
       builder: (context, child) {
         return Consumer<RangeFullCalendarWidgetViewModel>(
           builder: (context, rangeFullCalendarWidgetViewModel, __) {
+            // print(rangeFullCalendarWidgetViewModel.focusDay);
             return FractionallySizedBox(
               heightFactor: 0.66,
               child: Scrollbar(
@@ -55,7 +56,8 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                 rangeFullCalendarWidgetViewModel.rangeStartDay,
                             rangeEndDay:
                                 rangeFullCalendarWidgetViewModel.rangeEndDay,
-                            focusedDay: _focusedDay,
+                            focusedDay:
+                                rangeFullCalendarWidgetViewModel.focusDay,
                             calendarFormat: CalendarFormat.month,
                             rangeSelectionMode: RangeSelectionMode.toggledOn,
                             onRangeSelected: (start, end, focusedDay) {
@@ -74,21 +76,11 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                 color: Colors.transparent,
                               ),
                               todayTextStyle: const TextStyle(
-                                color: Colors.black,
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold,
                               ),
-                              rangeHighlightColor: Colors.blue.withOpacity(0.5),
-                              rangeStartDecoration: const BoxDecoration(
-                                color: Colors.blue,
-                                shape: BoxShape.circle,
-                              ),
-                              rangeEndDecoration: const BoxDecoration(
-                                color: Colors.blue,
-                                shape: BoxShape.circle,
-                              ),
-                              withinRangeDecoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.2),
-                                shape: BoxShape.circle,
-                              ),
+                              rangeHighlightColor:
+                                  Colors.transparent.withOpacity(0.05),
                             ),
                             headerStyle: const HeaderStyle(
                               formatButtonVisible: false,
@@ -100,7 +92,7 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                   child: Container(
                                     margin: const EdgeInsets.all(4.0),
                                     decoration: const BoxDecoration(
-                                      color: Colors.blue,
+                                      color: Colors.black,
                                       shape: BoxShape.circle,
                                     ),
                                     width: 36.0,
@@ -120,7 +112,7 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                   child: Container(
                                     margin: const EdgeInsets.all(4.0),
                                     decoration: const BoxDecoration(
-                                      color: Colors.blue,
+                                      color: Colors.black,
                                       shape: BoxShape.circle,
                                     ),
                                     width: 36.0,
@@ -139,9 +131,8 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                 return Center(
                                   child: Container(
                                     margin: const EdgeInsets.all(4.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue.withOpacity(0.2),
-                                      shape: BoxShape.circle,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.transparent,
                                     ),
                                     width: 36.0,
                                     height: 36.0,
@@ -163,10 +154,18 @@ class RangeFullCalendarWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                '오늘로 이동',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
+                              RichText(
+                                text: TextSpan(
+                                  text: '오늘로 이동',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      rangeFullCalendarWidgetViewModel
+                                          .setFocusDay(DateTime.now());
+                                    },
                                 ),
                               ),
                               SizedBox(
@@ -202,17 +201,15 @@ class RangeFullCalendarWidget extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () {
-                                    rangeFullCalendarWidgetViewModel
-                                        .setRangeText(
-                                            rangeFullCalendarWidgetViewModel
-                                                .rangeStartDay,
-                                            rangeFullCalendarWidgetViewModel
-                                                .rangeEndDay);
                                     context
                                         .read<AddPlanViewModel>()
-                                        .setRangeText(
+                                        .setStartDay(
                                             rangeFullCalendarWidgetViewModel
-                                                .rangeText);
+                                                .rangeStartDay);
+
+                                    context.read<AddPlanViewModel>().setEndDay(
+                                        rangeFullCalendarWidgetViewModel
+                                            .rangeEndDay);
                                     context.pop();
                                   },
                                   child: const Text('선택'),
