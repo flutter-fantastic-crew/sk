@@ -49,7 +49,7 @@ class AppBarWidget extends AppBar {
                 color: Colors.black38,
               ),
               onPressed: () {
-                context.push('/addPlan');
+                context.push('/addPlan/step1');
               },
             ),
             IconButton(
